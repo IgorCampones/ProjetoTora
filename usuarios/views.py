@@ -11,6 +11,7 @@ def cadastro(request):
     status = request.GET.get('status')
     return render(request, 'cadastro.html', {'status': status})
 
+#Realiza a validação do cadastro
 def valida_cadastro(request):
     nome = request.POST.get('nome')
     cpf = request.POST.get('cpf')
@@ -40,7 +41,7 @@ def valida_cadastro(request):
     except:
         return redirect('/usuarios/cadastro/?status=4')
 
-
+#Realiza a validação do login, vendo se o CPF existe no bd
 def valida_login(request):
 
     cpf = request.POST.get('cpf')
@@ -53,6 +54,7 @@ def valida_login(request):
         request.session['colaborador'] = colaborador[0].id
         return redirect('/usuarios/home/')
 
+#Verifica se o usuário está logado
 def home(request):
     if request.session.get('colaborador'):
         colaborador = Colaborador.objects.get(id = request.session['colaborador']).nomecolaborador
@@ -60,9 +62,11 @@ def home(request):
     else:
         return redirect('/usuarios/login/?status=2')
 
+#Função para realizar logout
 def sair(request):
     request.session.flush()
     return redirect('/usuarios/login/')
 
+#Função para redirecionar caso não digite o url correto
 def erro404(request, exception):
     return render(request, 'page404.html')
