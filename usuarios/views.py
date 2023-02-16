@@ -56,10 +56,13 @@ def valida_login(request):
 def home(request):
     if request.session.get('colaborador'):
         colaborador = Colaborador.objects.get(id = request.session['colaborador']).nomecolaborador
-        return HttpResponse(f'Olá {colaborador}')
+        return render(request, 'home.html')
     else:
         return redirect('/usuarios/login/?status=2')
 
 def sair(request):
     request.session.flush()
     return redirect('/usuarios/login/')
+
+def erro404(request, exception):
+    return render(request, 'page404.html')
