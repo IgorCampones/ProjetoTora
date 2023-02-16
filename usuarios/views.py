@@ -56,7 +56,7 @@ def valida_login(request):
 def home(request):
     if request.session.get('colaborador'):
         colaborador = Colaborador.objects.get(id = request.session['colaborador']).nomecolaborador
-        return render(request, 'home.html')
+        return render(request, 'home.html', {'colaborador_logado': request.session.get('colaborador')})
     else:
         return redirect('/usuarios/login/?status=2')
 
